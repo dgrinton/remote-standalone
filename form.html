@@ -1,0 +1,30 @@
+<form action="/index.php" method="post">
+    <input type="hidden" name="form" value="1"/>
+    <input type="text" name="what"/>
+    <input type="submit" name="go" value="go"/>
+</form>
+<form action="/index.php" method="post">
+    <input type="hidden" name="upload" value="1"/>
+
+    <meta class="remote_form" value="start_slot what 0"/>
+    <input type="file" name="what[0]"/>
+    <meta class="remote_form" value="end_slot what 0"/>
+    <meta class="remote_form" value="start_slot what 1"/>
+    <input type="file" name="what[1]"/>
+    <meta class="remote_form" value="end_slot what 1"/>
+
+    <input type="submit" name="go" value="go"/>
+
+    <div class="file_input_cluster_template" id="what_template">
+        <input type="file" name="what[]"/>
+        <!--
+        <div class="existing_name_template">
+        </div>
+        <div class="existing_file_template">
+            <img class="existing_icon"/>
+        </div>
+        <div class="delete_existing_checkbox_template">
+        </div>
+        -->
+    </div>
+</form>

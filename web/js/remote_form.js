@@ -8,6 +8,7 @@ var RemoteForm = function()
     var comment_metadata = new Hash();
     var onsubmit_hash = new Hash();
     var onreturn_hash = new Hash();
+    var upload_iframe = '/upload.php';
 
     var _pub = 
     {
@@ -227,6 +228,7 @@ var RemoteForm = function()
 
     var readCommentMetaData = function()
     {
+        //console.log('readmetadata');
         $$('meta.remote_form').each(function(c)
         {
             var parts = c.readAttribute('value').split(' ');
@@ -259,6 +261,7 @@ var RemoteForm = function()
 
     var initForms = function()
     {
+        //console.log('initforms');
         upload_slots = new Hash();
         readCommentMetaData();
 
@@ -360,6 +363,7 @@ var RemoteForm = function()
 
     var sortFileUploads = function(name)
     {
+        //console.log('sort');
         var files = new Array();
         var tmp = comment_metadata.get(name);
         var count = tmp.length;
@@ -472,8 +476,8 @@ var RemoteForm = function()
         }
 
         var iframe = new Element('iframe',{
-            src:'ext/upload.php?session_id='+sessId
-            +'&upload_dir=../'+uploadDir
+            src:upload_iframe+'?session_id='+sessId
+            +'&upload_dir='+uploadDir
             +'&id='+i.identify(),
             id:i.identify(),
             name:i.name,

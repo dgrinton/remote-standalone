@@ -16,6 +16,7 @@ var Remote = function()
     var halted = false;
     var onreturns = new Array();
     var before_loads = new Array();
+    var furnisher = 'index.php';
 
     var _pub = 
     {
@@ -57,7 +58,7 @@ var Remote = function()
                             zIndex:'9999'
                         });
                         document.body.insert(cover);
-                        ajaxLoad('index.php?'+url.split('#')[1]);
+                        ajaxLoad(furnisher+'?'+url.split('#')[1]);
                     }
                     else
                     {
@@ -122,7 +123,7 @@ var Remote = function()
                         ignore_rsh = false;
                         return;
                     }
-                    var url = 'index.php'
+                    var url = furnisher;
                     if(newLocation)
                         url += '?' + newLocation;
                     ajaxLoad(url);
@@ -163,7 +164,7 @@ var Remote = function()
         {
             dhtmlHistory.addListener(function(newLocation,historyData)
             {
-                ajaxLoad('index.php?'+newLocation);
+                ajaxLoad(furnisher+'?'+newLocation);
             });
         },
 
@@ -173,7 +174,12 @@ var Remote = function()
             clearTimeouts();
             if(window.location.toString().indexOf('?') == -1)
             {
-                var url = form.action + '&'+url_param+'=true&remote_num='+remoteNumber;
+                if(form.action.indexOf('?') !== -1) {
+                    var url = form.action + '&'+url_param+'=true&remote_num='+remoteNumber;
+                }
+                else {
+                    var url = form.action + '?'+url_param+'=true&remote_num='+remoteNumber;
+                }
 
                 var r = new Ajax.Request(url,{
                     onSuccess:function(transport){
@@ -312,7 +318,7 @@ var Remote = function()
 
     var haxLoad = function(url)
     {
-        new Ajax.Request('index.php?h=HaxLoad',{
+        new Ajax.Request(furnisher+'?h=HaxLoad',{
             onSuccess:function(transport)
             {
                 var target = url.replace('?','#') + '&transition';
@@ -326,7 +332,7 @@ var Remote = function()
     {
         var params = form.serialize(true);
         params._remote_formhax_target = form.action.split('?')[1];
-        new Ajax.Request('index.php?h=HaxLoad',{
+        new Ajax.Request(furnisher+'?h=HaxLoad',{
             onSuccess:function(transport)
             {
                 var target = form.action.replace('?','#') + '&transition';
@@ -577,6 +583,7 @@ var Remote = function()
 
     var addAnchorListeners = function(node)
     {
+        node = Element.extend(node);
         node.select('a.remote_exec').each(function(a)
         {
             a.observe('click',function(ev)

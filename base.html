@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <script type="text/javascript" src="js/prototype.js"></script>
+        <script type="text/javascript" src="js/rsh.js"></script>
+        <script type="text/javascript" src="js/rsh_init.js"></script>
+        <script type="text/javascript" src="js/json2.js"></script>
+        <script type="text/javascript" src="js/json_ml2.js"></script>
+        <script type="text/javascript" src="js/remote.js"></script>
+        <script type="text/javascript" src="js/remote_form.js"></script>
+        <script type="text/javascript" src="js/js_register.js"></script>
+        <script type="text/javascript" src="js/script_wrangler.js"></script>
+        <script type="text/javascript">
+            Remote.initBeforeLoad('id_str','uploads',false);
+            JsRegister.addOnload(function() {
+                $('js_test').observe('click',function(ev) {
+                    ev.stop();
+                    if(window.js_test) {
+                        window.js_test();
+                    }
+                    else {
+                        alert('window.js_test not defined');
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body id="body">
+        <div id="menu">
+            <a class="remote_exec" href="?target=one">one</a>
+            <a class="remote_exec" href="?target=two">two</a>
+            <a class="remote_exec" href="?target=form">form</a>
+            <a class="remote_exec" href="?target=images">images</a>
+            <a id="js_test" href="">run js</a>
+            <a class="remote_exec" href="?target=js1">js page 1</a>
+            <a class="remote_exec" href="?target=js2a">js page 2a</a>
+            <a class="remote_exec" href="?target=js2b">js page 2b</a>
+        </div>
+        <div id="main">
+        </div>
+    </body>
+</html>
