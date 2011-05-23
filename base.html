@@ -12,13 +12,27 @@
         <script type="text/javascript">
             Remote.initBeforeLoad('id_str','uploads',false);
             JsRegister.addOnload(function() {
+                $('debug-head').observe('click',function(ev) {
+                    ev.stop();
+                    var h = $$('head')[0];
+                    var o = $('debug-head-output');
+                    var dbg = '';
+                    $A(h.childNodes).each(function(n) {
+                        dbg += ' ' + n.nodeType;
+                        if(n.nodeType == 1) {
+                            dbg += ' ' + n.nodeName;
+                        }
+                        dbg += '\n';
+                    });
+                    o.innerHTML = '<pre>'+dbg+'</pre>';
+                });
                 $('js_test').observe('click',function(ev) {
                     ev.stop();
-                    if(window.js_test) {
-                        window.js_test();
+                    if(window.js_test_func) {
+                        window.js_test_func();
                     }
                     else {
-                        alert('window.js_test not defined');
+                        alert('window.js_test_func not defined');
                     }
                 });
             });
@@ -34,7 +48,9 @@
             <a class="remote_exec" href="?target=js1">js page 1</a>
             <a class="remote_exec" href="?target=js2a">js page 2a</a>
             <a class="remote_exec" href="?target=js2b">js page 2b</a>
+            <a id="debug-head" href="">debug head</a>
         </div>
+        <div id="debug-head-output"></div>
         <div id="main">
         </div>
     </body>

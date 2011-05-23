@@ -60,8 +60,8 @@
                     'id'=>'',
                     'attribute'=>'css',
                     'value'=>Jsonml::encode('<meta name="ws_remote"
-                    class="conditional_css" value="[if gt ie6]"/><link
-                    rel="stylesheet" href="css/red.css"/><meta name="ws_remote"
+                    class="conditional_css" value="[if gt ie 6]"/><link
+                    rel="stylesheet" type="text/css" href="css/red.css"/><meta name="ws_remote"
                     class="conditional_css" value="[endif]"/>'),
                 );
             }
@@ -69,7 +69,7 @@
                 $ret[] = array(
                     'id'=>'',
                     'attribute'=>'css',
-                    'value'=>Jsonml::encode('<link rel="stylesheet" href="css/blue.css"/>'),
+                    'value'=>Jsonml::encode('<link rel="stylesheet" type="text/css" href="css/blue.css"/>'),
                 );
             }
             else if($target == 'js1') {

@@ -649,8 +649,13 @@ var Remote = function()
                 }
                 else
                 {
-                    head.insert(to_add);
-                    css.push(to_add);
+                    to_add.parentNode.removeChild(to_add);
+                    var new_link = document.createElement('link');
+                    new_link.setAttribute('rel','stylesheet');
+                    new_link.setAttribute('type','text/css');
+                    new_link.setAttribute('href',to_add.readAttribute('href'));
+                    head.insert(new_link);
+                    css.push(new_link);
                 }
             }
             else if(to_add.parentNode)
