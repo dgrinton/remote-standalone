@@ -1,15 +1,25 @@
+installing this sample site:
+    the web dir must be web accessible, and the uploads and accepted dirs must
+    be web writable
+    the relative directory layout must be kept the same
+
+how the sample site works:
+
 initialisation:
-    call Remote.initBeforeLoad(id_str, upload_dir, redirect_url) 
+    call Remote.initBeforeLoad(id_str, upload_dir, redirect_url) from head (ie
+    not after window load)
     -id_str is a unique id for this session
     it will be appended as remote_num to the GET parameters for each request
     along with ajax=1 (which means nothing really)
     -upload dir is a path relative to furnisher where ajax file uploads will go
     -redirect_url is optional, if supplied then Remote will make a request for
     this url and load the changeset returned
-    TODO what would it be used for?
+    the purpose of this is (probably) because if the server just redirected the
+    request then the browser url wouldnt be updated, although get_str addresses
+    this, so maybe this is redundant?
     if redirect_url is not supplied then the client will make a request for the
     current page, supplying 'no_reply=true' in GET, this is to allow the backend
-    to initialise
+    to initialise (also possibly redundant based on your backend)
     note that if the browser url contains a '#' then Remote will make a request
     for the current url with the '#' replaced by a '?', and then load the
     changeset
@@ -30,7 +40,7 @@ rebuildpage:
     this may not be necessary depending on how your backend works, but if remote
     receives an update like this:
     {
-     "id":"site_template_view_node", //TODO more generic
+     "id":"remote-rebuild-page",
      "value":<jsonml encoded html for head and body nodes, wrapped in a fragment node>
     }
     it will replace the head/body innerhtml with the provided markup
@@ -66,7 +76,6 @@ regular page loading:
     <meta name="ws_remote" value="<conditional as in html comment>"/>
      <!--link nodes go here-->
     <meta name="ws_remote" value="[endif]">
-    TODO does css actually work in IE?
     {
      "id":"",
      "attribute":"get_str",
@@ -89,10 +98,23 @@ regular page loading:
      "value":<code to be evaluated after page load>
     }
     note that dyn js is run before static_js is attached
-    you could avoid using dyn js entirely really..
+    the idea of dyn js is that you might need to dynamically generate some js
+    and serve it straight up and you don't want to store it somewhere and wait
+    for the browser to make another request for it
 
 forms:
     forms submitted by remote have an extra parameter added: "web2"
+    file upload fields will be replaced with an iframe as per the upload_iframe
+    variable at the top of remote_form.js, the iframe url will also contain the
+    id_str and upload_dir vars passed to Remote.initBeforeLoad, and the id,
+    name and class of the input 
+    once the file finishes uploading the form may be submitted
+    if the "remove" button next to the field is not clicked then the submitted
+    form data will contain the path to the uploaded file, in the upload_dir
+    directory, it is then up to the backend to move this somewhere permanent
+    NOTE: clicking the "remove" button doesn't actually remove the file on the
+    backend, just prevents it from being submitted with the form
+    NOTE: indexed file upload fields are not supported
     before submitting a form the RemoteForm.addOnReturn(form,callback) function
     can be used to add callbacks that will be run as soon as the form submission
     request returns
@@ -102,6 +124,21 @@ forms:
      "attribute":"form_validated",
      "value":<an object that will be passed to callbacks added with addOnReturn>
     }
+
+JsRegister:
+    works in conjunction with remote to provide onload functionality, properly
+    scoped observers and timeouts
+
+ScriptWrangler:
+    works in conjunction with remote to dynamically attach/remove script nodes
+    and performs crude scope tidying (examine window before adding script,
+    examine it again after, store the difference in what is defined, and when
+    the script is unloaded remove the difference)
+    the whenDone function allows callbacks to be added which will be triggered
+    after all static js has been loaded (these are then cleared)
+
+Browser History:
+    Remote uses RSH (really simple history)
 
 caveats:
 requests for '/' need to find the furnisher

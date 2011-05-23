@@ -1,0 +1,12 @@
+changes to remote.js:
+before, remote.js assumed that the url to hit on the server was "index.php", it
+still is now, but it can now be configured with the furnisher variable at the
+top of the file
+
+changed the setCss function to create the css link elements with
+document.createElement, instead of using what the JSON-ML decoding function
+produces, this seemed to be necessary to get IE to recognise the link node
+
+changes to remote_form.js:
+replaced uploaded form url from /ext/upload.php with a variable at the top of
+the file

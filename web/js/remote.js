@@ -438,7 +438,7 @@ var Remote = function()
                             window.location = new_loc;
                         }
                     }
-                    else if(update.id == 'site_template_view_node')
+                    else if(update.id == 'remote-rebuild-page')
                     {
                         rebuildPage(update.value);
                     }

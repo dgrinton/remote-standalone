@@ -1,1 +1,3 @@
 *.swp
+web/uploads/*
+web/accepted/*

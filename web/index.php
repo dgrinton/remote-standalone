@@ -91,6 +91,13 @@
                     )),
                 );
             }
+            else if($target == 'dyn_js') {
+                $ret[] = array(
+                    'id'=>'',
+                    'attribute'=>'dyn_js',
+                    'value'=>'alert("blah");',
+                );
+            }
         }
         $ret[] = array(
             'id'=>'',
