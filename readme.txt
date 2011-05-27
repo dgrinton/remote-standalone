@@ -129,6 +129,21 @@ JsRegister:
     works in conjunction with remote to provide onload functionality, properly
     scoped observers and timeouts
 
+    the JsRegister has a configure function which takes two arguments: rules
+    and onloads
+
+    rules is an array of {selector, trigger, func} - selector is a css
+    selector, trigger is an event (mouseover, keypress, etc) and func is a
+    javascript callback. After the page loads listeners will be bound to all
+    elements matching the selector, for the trigger event, which will fire the
+    callback.
+
+    onloads is an array of javascript callbacks which will be fired after the
+    page loads, the same as anything added with JsRegister.addOnload
+
+    configure should be called from dyn_js, its purpose is to allow the
+    backend to attach listeners and onload functions
+
 ScriptWrangler:
     works in conjunction with remote to dynamically attach/remove script nodes
     and performs crude scope tidying (examine window before adding script,
