@@ -1,0 +1,40 @@
+diff --git a/packages/remote/remote_display.class.php b/packages/remote/remote_display.class.php
+index 4918d52..27e3982 100644
+--- a/packages/remote/remote_display.class.php
++++ b/packages/remote/remote_display.class.php
+@@ -267,6 +267,9 @@
+                 }
+                 $attribute = $response['attribute'];
+ 
++                if($id == 'site_template_view_node') {
++                    $id = 'remote-rebuild-page';
++                }
+                 $ret[] = array('id'=>$id,'attribute'=>$attribute,'value'=>$value);
+             }
+             
+@@ -278,7 +281,7 @@
+         public function remoteNum()
+         {
+             if(!Application::param('remote_num')&&!$this->remote_num)
+-                $this->remote_num = session_id();//constant('SID');//md5(microtime(true));
++                $this->remote_num = md5(uniqid(rand(), TRUE));
+             else if(Application::param('remote_num')&&!$this->remote_num)
+                 $this->remote_num = Application::param('remote_num');
+ 
+@@ -547,11 +550,15 @@
+             $supported = array(
+                 'Firefox/2',
+                 'Firefox/3',
++                'Firefox/4',
+                 'MSIE 6',
+                 'MSIE 7',
+                 'MSIE 8',
++                'MSIE 9',
+                 array('Version/3', 'Safari'),
+-                array('Version/4', 'Safari')
++                array('Version/4', 'Safari'),
++                array('Version/5', 'Safari'),
++                'Chrome/11',
+             );
+             $ret = false;
+             
